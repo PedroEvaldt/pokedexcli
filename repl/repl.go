@@ -34,7 +34,7 @@ func StartRepl(cfg *Config) {
 			if commandName == "explore" {
 				mapName = words[1]
 			}
-			if commandName == "catch" {
+			if (commandName == "catch") || (commandName == "inspect") {
 				pokemon = words[1]
 			}
 		}
@@ -89,6 +89,11 @@ func getCommands() map[string]cliCommand {
 			name:        "catch",
 			description: "Catch a pokemon",
 			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "Print status of a given pokemon",
+			callback:    commandInspect,
 		},
 	}
 }
