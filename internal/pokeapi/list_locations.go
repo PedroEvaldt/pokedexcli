@@ -130,10 +130,10 @@ func (c *Client) SearchPokemon(pokemon string) (Pokemon, error) {
 }
 
 func (c *Client) CatchPokemon(p Pokemon) (bool, error) {
-	c.Pokedex.Pokemons[p.Name] = p
 	res := rand.Intn(p.BaseExperience)
 	if res > 40 {
 		return false, nil
 	}
+	c.Pokedex.Pokemons[p.Name] = p
 	return true, nil
 }

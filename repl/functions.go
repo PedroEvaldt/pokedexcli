@@ -118,3 +118,15 @@ func commandInspect(cfg *Config, locName, pokemon string) error {
 	}
 	return nil
 }
+
+func commandPokedex(cfg *Config, locName, pokemon string) error {
+	if len(cfg.PokeapiClient.Pokedex.Pokemons) > 0 {
+		fmt.Println("Your Pokedex:")
+		for _, pokemon := range cfg.PokeapiClient.Pokedex.Pokemons {
+			fmt.Printf("  - %s\n", pokemon.Name)
+		}
+	} else {
+		fmt.Println("You did not caught any pokemon yet, keep practicing")
+	}
+	return nil
+}
