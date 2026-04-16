@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
 )
 
@@ -128,7 +129,11 @@ func (c *Client) SearchPokemon(pokemon string) (Pokemon, error) {
 	return pokemonResp, nil
 }
 
-func (c *Client) CatchPokemon(p Pokemon) error {
+func (c *Client) CatchPokemon(p Pokemon) (bool, error) {
 	c.Pokedex.Pokemons[p.Name] = p
-	return nil
+	res := rand.Intn(p.BaseExperience)
+	if res > 40 {
+		return false, nil
+	}
+	return true, nil
 }

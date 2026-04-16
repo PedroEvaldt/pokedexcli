@@ -86,11 +86,15 @@ func commandCatch(cfg *Config, locName, pokemon string) error {
 	}
 	// Futuramente fazer cfg.PokeapiClient.Catchpokemon(pokemon)
 	fmt.Println("Throwing a Pokeball at " + pokemonResp.Name + "...")
-	err = cfg.PokeapiClient.CatchPokemon(pokemonResp)
+	caught, err := cfg.PokeapiClient.CatchPokemon(pokemonResp)
 	if err != nil {
 		return err
 	}
-	fmt.Println(pokemon + " was caught!")
 
+	if caught {
+		fmt.Printf("%s was caught!\n", pokemonResp.Name)
+	} else {
+		fmt.Printf("%s escaped!\n", pokemonResp.Name)
+	}
 	return nil
 }
