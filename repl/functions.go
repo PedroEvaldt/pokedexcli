@@ -5,13 +5,13 @@ import (
 	"os"
 )
 
-func commandExit(cfg *Config, locName string) error {
+func commandExit(cfg *Config, locName, pokemon string) error {
 	fmt.Println("Closing the Pokedex... Goodbye!")
 	os.Exit(0)
 	return nil
 }
 
-func commandHelp(cfg *Config, locName string) error {
+func commandHelp(cfg *Config, locName, pokemon string) error {
 	fmt.Println()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
@@ -28,7 +28,7 @@ var (
 	prevURL *string
 )
 
-func commandMap(cfg *Config, locName string) error {
+func commandMap(cfg *Config, locName, pokemon string) error {
 	locationsResp, err := cfg.PokeapiClient.ListLocations(cfg.nextLocationsURL)
 	if err != nil {
 		return err
@@ -44,7 +44,7 @@ func commandMap(cfg *Config, locName string) error {
 	return nil
 }
 
-func commandMapb(cfg *Config, locName string) error {
+func commandMapb(cfg *Config, locName, pokemon string) error {
 	if cfg.prevLocationsURL == nil {
 		return fmt.Errorf("You are on the first page")
 	}
@@ -63,7 +63,7 @@ func commandMapb(cfg *Config, locName string) error {
 	return nil
 }
 
-func commandExplore(cfg *Config, locName string) error {
+func commandExplore(cfg *Config, locName, pokemon string) error {
 	locationResp, err := cfg.PokeapiClient.SearchLocation(locName)
 	if err != nil {
 		return err
@@ -76,5 +76,21 @@ func commandExplore(cfg *Config, locName string) error {
 	for _, pokemon := range pokemons {
 		fmt.Println(pokemon)
 	}
+	return nil
+}
+
+func commandCatch(cfg *Config, locName, pokemon string) error {
+	pokemonResp, err := cfg.PokeapiClient.SearchPokemon(pokemon)
+	if err != nil {
+		return err
+	}
+	// Futuramente fazer cfg.PokeapiClient.Catchpokemon(pokemon)
+	fmt.Println("Throwing a Pokeball at " + pokemonResp.Name + "...")
+	err = cfg.PokeapiClient.CatchPokemon(pokemonResp)
+	if err != nil {
+		return err
+	}
+	fmt.Println(pokemon + " was caught!")
+
 	return nil
 }
